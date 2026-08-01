@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Folder, FileText, Download, Loader2, ArrowLeft, Plus, FolderPlus, Trash2, Search, Pin } from 'lucide-react';
+import { Folder, FileText, Download, Loader2, ArrowLeft, Plus, FolderPlus, Trash2, Search, Pin, Image as ImageIcon, Video, File as FileIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
@@ -33,6 +33,29 @@ const Assets: React.FC = () => {
   
   const [history, setHistory] = useState<FolderNode[]>([{ id: 'root', title: 'Home' }]);
   const [isCreatingFolder, setIsCreatingFolder] = useState(false);
+  const getFileIcon = (filename: string) => {
+    const ext = filename.split('.').pop()?.toLowerCase();
+    switch (ext) {
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+      case 'gif':
+      case 'webp':
+      case 'svg':
+        return <ImageIcon size={20} />;
+      case 'mp4':
+      case 'webm':
+      case 'mov':
+      case 'avi':
+        return <Video size={20} />;
+      case 'pdf':
+      case 'txt':
+      case 'csv':
+        return <FileText size={20} />;
+      default:
+        return <FileIcon size={20} />;
+    }
+  };
   const [newFolderName, setNewFolderName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [assetToDelete, setAssetToDelete] = useState<Asset | null>(null);
@@ -565,7 +588,7 @@ const Assets: React.FC = () => {
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0, flex: 1 }}>
                       <div className={styles.iconWrapper} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.5rem', borderRadius: '8px', flexShrink: 0 }}>
-                        <FileText size={20} />
+                        {getFileIcon(file.title)}
                       </div>
                       <div style={{ minWidth: 0, flex: 1, paddingRight: '0.5rem' }}>
                         <h4 style={{ margin: '0 0 0.25rem 0', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0, width: '100%' }}>
