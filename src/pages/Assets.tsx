@@ -505,7 +505,7 @@ const Assets: React.FC = () => {
                     key={folder.id} 
                     onClick={() => openFolder(folder.id, folder.title)}
                     className={styles.statCard} 
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '1rem', border: '1px solid var(--border-color)', position: 'relative' }}
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '1rem', border: '1px solid var(--border-color)', position: 'relative', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0, flex: 1 }}>
                       <div className={styles.iconWrapper} style={{ backgroundColor: `${folder.color || '#3b82f6'}1A`, color: folder.color || '#3b82f6', padding: '0.5rem', borderRadius: '8px', flexShrink: 0 }}>
@@ -555,21 +555,21 @@ const Assets: React.FC = () => {
           {files.length > 0 && (
             <section>
               <h3 className={styles.sectionTitle} style={{ fontSize: '1rem', marginBottom: '1rem', opacity: 0.8 }}>Files</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%', boxSizing: 'border-box' }}>
                 {files.map((file) => (
                   <div 
                     key={file.id} 
                     className={styles.statCard} 
                     onClick={(e) => handleView(e, file)}
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid var(--border-color)', cursor: 'pointer' }}
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid var(--border-color)', cursor: 'pointer', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0, flex: 1 }}>
                       <div className={styles.iconWrapper} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.5rem', borderRadius: '8px', flexShrink: 0 }}>
                         <FileText size={20} />
                       </div>
                       <div style={{ minWidth: 0, flex: 1, paddingRight: '0.5rem' }}>
-                        <h4 style={{ margin: '0 0 0.25rem 0', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0 }}>
-                          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block', minWidth: 0 }}>{file.title}</span>
+                        <h4 style={{ margin: '0 0 0.25rem 0', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0, width: '100%' }}>
+                          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, minWidth: 0 }}>{file.title}</span>
                           {isNew(file.created_at) && !readAssets.has(file.id) && (
                             <span style={{ 
                               background: 'var(--accent-color)', 
