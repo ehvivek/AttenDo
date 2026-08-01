@@ -1,0 +1,97 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  position: relative;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.contentScroll {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  padding-bottom: 0;
+  background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.mobileNav {
+  display: none;
+}
+
+.mobileHeader {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    height: calc(100vh - 64px); /* Leave room for bottom nav */
+  }
+
+  .mobileHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
+    margin: 1rem 1rem 0 1rem;
+    position: sticky;
+    top: 1rem;
+    z-index: 40;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
+  }
+
+  .mobileLogo {
+    height: 52px;
+    object-fit: contain;
+  }
+  
+  .contentScroll {
+    padding-bottom: 2rem; /* Extra padding so content doesn't hide behind nav */
+  }
+
+  .mobileNav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    z-index: 50;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 1rem;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+  }
+
+  .mobileNavItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    flex: 1;
+  }
+
+  .mobileNavItem.active {
+    color: var(--text-color);
+  }
+}

@@ -1,0 +1,54 @@
+.container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg, 12px);
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--danger-color, #ef4444);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 1.5rem;
+  border-radius: var(--radius-lg, 12px);
+  z-index: 0;
+}
+
+.undoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px dashed var(--border-color, #e5e5e5);
+  border-radius: var(--radius-lg, 12px);
+}
+
+.undoText {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.undoBtn {
+  background: transparent;
+  border: 1px solid var(--accent-color, #007bff);
+  color: var(--accent-color, #007bff);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full, 99px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.undoBtn:hover {
+  background: rgba(var(--accent-color-rgb, 0, 123, 255), 0.1);
+}
