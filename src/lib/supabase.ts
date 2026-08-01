@@ -33,7 +33,7 @@ const nativeStorage = {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    storage: Capacitor.isNativePlatform() ? nativeStorage : window.localStorage,
+    ...(Capacitor.isNativePlatform() ? { storage: nativeStorage } : {}),
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
