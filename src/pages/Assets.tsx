@@ -458,7 +458,7 @@ const Assets: React.FC = () => {
 
       {/* Content Area */}
       {loading ? (
-        <div style={{ display: 'grid', gap: '2rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', minWidth: 0, width: '100%' }}>
           <section>
             <h3 className={styles.sectionTitle} style={{ fontSize: '1rem', marginBottom: '1rem', opacity: 0.8 }}>Folders</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1rem' }}>
@@ -493,7 +493,7 @@ const Assets: React.FC = () => {
           <p>This folder is empty.</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gap: '2rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', minWidth: 0, width: '100%' }}>
           
           {/* Folders List */}
           {folders.length > 0 && (
