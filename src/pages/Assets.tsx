@@ -507,15 +507,15 @@ const Assets: React.FC = () => {
                     className={styles.statCard} 
                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '1rem', border: '1px solid var(--border-color)', position: 'relative' }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <div className={styles.iconWrapper} style={{ backgroundColor: `${folder.color || '#3b82f6'}1A`, color: folder.color || '#3b82f6', padding: '0.5rem', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0, flex: 1 }}>
+                      <div className={styles.iconWrapper} style={{ backgroundColor: `${folder.color || '#3b82f6'}1A`, color: folder.color || '#3b82f6', padding: '0.5rem', borderRadius: '8px', flexShrink: 0 }}>
                         <Folder size={24} />
                       </div>
-                      <div>
-                        <h4 style={{ margin: '0', fontWeight: 600, fontSize: '1rem', color: 'var(--text-color)' }}>{folder.title}</h4>
+                      <div style={{ minWidth: 0, flex: 1, paddingRight: '0.5rem' }}>
+                        <h4 style={{ margin: '0', fontWeight: 600, fontSize: '1rem', color: 'var(--text-color)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{folder.title}</h4>
                       </div>
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', zIndex: 10 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', zIndex: 10, flexShrink: 0 }}>
                       <button 
                         onClick={(e) => isAdmin ? toggleAdminPin(e, folder) : toggleStudentPin(e, folder.id)}
                         style={{ background: 'transparent', padding: '0.5rem', borderRadius: '50%', border: 'none', color: folder.is_pinned_admin ? '#eab308' : studentPins.has(folder.id) ? '#3b82f6' : 'var(--text-secondary)', cursor: 'pointer', display: 'flex', transition: 'all 0.2s' }}
@@ -563,13 +563,13 @@ const Assets: React.FC = () => {
                     onClick={(e) => handleView(e, file)}
                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid var(--border-color)', cursor: 'pointer' }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <div className={styles.iconWrapper} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.5rem', borderRadius: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0, flex: 1 }}>
+                      <div className={styles.iconWrapper} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.5rem', borderRadius: '8px', flexShrink: 0 }}>
                         <FileText size={20} />
                       </div>
-                      <div>
-                        <h4 style={{ margin: '0 0 0.25rem 0', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                          {file.title}
+                      <div style={{ minWidth: 0, flex: 1, paddingRight: '0.5rem' }}>
+                        <h4 style={{ margin: '0 0 0.25rem 0', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0 }}>
+                          <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block', minWidth: 0 }}>{file.title}</span>
                           {isNew(file.created_at) && !readAssets.has(file.id) && (
                             <span style={{ 
                               background: 'var(--accent-color)', 
@@ -591,7 +591,7 @@ const Assets: React.FC = () => {
                         </p>
                       </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
                       <button 
                         onClick={(e) => isAdmin ? toggleAdminPin(e, file) : toggleStudentPin(e, file.id)}
                         style={{ background: 'rgba(0,0,0,0.02)', padding: '0.5rem', borderRadius: '50%', border: 'none', color: file.is_pinned_admin ? '#eab308' : studentPins.has(file.id) ? '#3b82f6' : 'var(--text-secondary)', cursor: 'pointer', display: 'flex', transition: 'all 0.2s' }}
