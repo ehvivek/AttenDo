@@ -8,7 +8,7 @@ import Settings from './Settings';
 import Assets from './Assets';
 import Discover from './Discover';
 import styles from './Dashboard.module.css';
-import { LayoutDashboard, CheckCircle, BarChart3, Calendar, Settings as SettingsIcon, Folder, Bell, Compass, Menu, User } from 'lucide-react';
+import { LayoutDashboard, CheckCircle, BarChart3, Calendar, Folder, Bell, Compass, Menu, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
 import NotificationsView from './NotificationsView';
@@ -101,50 +101,43 @@ const Dashboard: React.FC = () => {
           className={`${styles.mobileNavItem} ${activeTab === 'overview' ? styles.active : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          <LayoutDashboard size={20} />
+          <LayoutDashboard size={22} />
           <span>Overview</span>
         </button>
         <button 
           className={`${styles.mobileNavItem} ${activeTab === 'timetable' ? styles.active : ''}`}
           onClick={() => setActiveTab('timetable')}
         >
-          <Calendar size={20} />
+          <Calendar size={22} />
           <span>Timetable</span>
         </button>
         <button 
           className={`${styles.mobileNavItem} ${activeTab === 'mark' ? styles.active : ''}`}
           onClick={() => setActiveTab('mark')}
         >
-          <CheckCircle size={20} />
+          <CheckCircle size={22} />
           <span>Mark</span>
         </button>
         <button 
           className={`${styles.mobileNavItem} ${activeTab === 'tracker' ? styles.active : ''}`}
           onClick={() => setActiveTab('tracker')}
         >
-          <BarChart3 size={20} />
+          <BarChart3 size={22} />
           <span>Tracker</span>
         </button>
         <button 
           className={`${styles.mobileNavItem} ${activeTab === 'discover' ? styles.active : ''}`}
           onClick={() => setActiveTab('discover')}
         >
-          <Compass size={20} />
+          <Compass size={22} />
           <span>Discover</span>
         </button>
         <button 
           className={`${styles.mobileNavItem} ${activeTab === 'assets' ? styles.active : ''}`}
           onClick={() => setActiveTab('assets')}
         >
-          <Folder size={20} />
+          <Folder size={22} />
           <span>Assets</span>
-        </button>
-        <button 
-          className={`${styles.mobileNavItem} ${activeTab === 'settings' ? styles.active : ''}`}
-          onClick={() => setActiveTab('settings')}
-        >
-          <SettingsIcon size={20} />
-          <span>Settings</span>
         </button>
       </nav>
     </div>

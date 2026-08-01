@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf';
+import { downloadFile } from './nativeDownload';
 import type { AttendanceRecord, Course } from '../context/AttendanceContext';
 
 interface UserInfo {
@@ -316,5 +317,6 @@ export const generateReportCardPDF = async (records: AttendanceRecord[], user: U
 
   // Save
   const fileName = `AttenDo_Report_${user.rollNumber}_${new Date().toISOString().split('T')[0]}.pdf`;
-  doc.save(fileName);
+  const pdfBlob = doc.output('blob');
+  await downloadFile(pdfBlob, fileName, 'application/pdf');
 };

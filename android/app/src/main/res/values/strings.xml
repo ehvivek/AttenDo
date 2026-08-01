@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AttenDo</string>
+    <string name="title_activity_main">AttenDo</string>
+    <string name="package_name">com.attendo.app</string>
+    <string name="custom_url_scheme">com.attendo.app</string>
+</resources>

@@ -4,6 +4,9 @@
   flex-direction: column;
   padding: 2rem;
   align-items: center;
+  overflow-x: hidden;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 .header {

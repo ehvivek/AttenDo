@@ -3,6 +3,8 @@
   padding-bottom: 6rem;
   max-width: 800px;
   margin: 0 auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .header {

@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from './AuthContext';
+import { Capacitor } from '@capacitor/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 export interface Notification {
   id: string;
@@ -25,14 +27,65 @@ interface NotificationContextType {
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
+/**
+ * Request notification permissions on native platforms.
+ * Safe to call multiple times — it only prompts once.
+ */
+const requestNotificationPermission = async () => {
+  if (!Capacitor.isNativePlatform()) return;
+  try {
+    const perm = await LocalNotifications.checkPermissions();
+    if (perm.display === 'prompt' || perm.display === 'prompt-with-rationale') {
+      await LocalNotifications.requestPermissions();
+    }
+  } catch (e) {
+    console.warn('Could not request notification permissions:', e);
+  }
+};
+
+/**
+ * Fire a native Android/iOS notification.
+ */
+const fireNativeNotification = async (title: string, body: string) => {
+  if (!Capacitor.isNativePlatform()) return;
+  try {
+    const perm = await LocalNotifications.checkPermissions();
+    if (perm.display !== 'granted') return;
+
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          id: Date.now(),
+          title,
+          body,
+          smallIcon: 'ic_launcher',
+          largeIcon: 'ic_launcher',
+          sound: 'default',
+        },
+      ],
+    });
+  } catch (e) {
+    console.warn('Could not fire native notification:', e);
+  }
+};
+
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const hasRequestedPerms = useRef(false);
   const [deletedIds, setDeletedIds] = useState<Set<string>>(() => {
     const saved = localStorage.getItem('attendo_deleted_notifs');
     return saved ? new Set(JSON.parse(saved)) : new Set();
   });
   
+  // Request notification permissions once on mount
+  useEffect(() => {
+    if (!hasRequestedPerms.current) {
+      hasRequestedPerms.current = true;
+      requestNotificationPermission();
+    }
+  }, []);
+
   useEffect(() => {
     if (!user) {
       setNotifications([]);
@@ -57,6 +110,12 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
           }
           if (targetBatches.includes(newNotif.target_batch)) {
             setNotifications(prev => [{ ...newNotif, is_read: false }, ...prev]);
+            
+            // 🔔 Fire native Android notification
+            fireNativeNotification(
+              newNotif.title,
+              newNotif.message
+            );
           }
         }
       )

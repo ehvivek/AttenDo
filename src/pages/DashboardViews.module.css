@@ -4,6 +4,8 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 @media (max-width: 640px) {
@@ -20,6 +22,8 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .titleSection {
@@ -146,6 +150,31 @@
   font-weight: 500;
   font-size: 0.875rem;
   color: var(--text-color);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .clockWidget {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .headerTop {
+    gap: 0.5rem;
+  }
+
+  .dateNavigation {
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .dateDisplay {
+    width: auto;
+    min-width: 0;
+    flex: 1;
+  }
 }
 
 .backBtn {

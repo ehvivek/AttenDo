@@ -5,6 +5,7 @@ import styles from './DashboardViews.module.css';
 import { Trash2, Search, Download, FileText } from 'lucide-react';
 import ExcelJS from 'exceljs';
 import { generateReportCardPDF } from '../utils/pdfReport';
+import { downloadFile } from '../utils/nativeDownload';
 
 const Tracker: React.FC = () => {
   const { records, courses, deleteRecord } = useAttendance();
@@ -98,14 +99,9 @@ const Tracker: React.FC = () => {
     // 3. Generate and download file
     const excelBuffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
     const { getLocalDateString } = await import('../utils/dateUtils');
-    link.download = `AttenDo_Report_${getLocalDateString()}.xlsx`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const fileName = `AttenDo_Report_${getLocalDateString()}.xlsx`;
+    await downloadFile(blob, fileName, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
   };
 
   return (
