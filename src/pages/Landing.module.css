@@ -1,8 +1,10 @@
 .container {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   padding: 2rem;
+  padding-bottom: max(3rem, env(safe-area-inset-bottom, 3rem));
   align-items: center;
   overflow-x: hidden;
   max-width: 100vw;
