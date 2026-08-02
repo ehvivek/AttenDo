@@ -29,17 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if (session?.user) {
-        fetchUserProfile(session.user);
-      } else {
-        setLoading(false);
-      }
-    });
-
-    // Listen for auth changes
+    // Listen for auth changes FIRST (Supabase best practice)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       if (session?.user) {
@@ -49,6 +39,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setLoading(false);
       }
     });
+
+    // Get initial session
+    // On native platforms, Capacitor Preferences is async and needs a moment
+    // to read from disk. We warm it up first to avoid a race condition where
+    // getSession() returns null before storage has loaded the saved tokens.
+    const initSession = async () => {
+      try {
+        // Warm up native storage by reading the Supabase auth key
+        // This ensures Preferences has loaded before getSession reads it
+        const { Capacitor } = await import('@capacitor/core');
+        if (Capacitor.isNativePlatform()) {
+          const { Preferences } = await import('@capacitor/preferences');
+          await Preferences.get({ key: 'sb-hfpunlwbzrscunpajjcl-auth-token' });
+        }
+      } catch (_) {
+        // Ignore - non-native or plugin not available
+      }
+      
+      const { data: { session } } = await supabase.auth.getSession();
+      // Only update if onAuthStateChange hasn't already fired
+      if (session?.user) {
+        setSession(session);
+        fetchUserProfile(session.user);
+      } else {
+        setLoading(false);
+      }
+    };
+    
+    initSession();
 
     return () => subscription.unsubscribe();
   }, []);
