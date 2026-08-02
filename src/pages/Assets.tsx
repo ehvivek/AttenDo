@@ -42,28 +42,18 @@ const Assets: React.FC = () => {
       case 'gif':
       case 'webp':
       case 'svg':
-        return { icon: <ImageIcon size={20} />, bg: 'rgba(34, 197, 94, 0.1)', color: '#22c55e' };
+        return <ImageIcon size={20} />;
       case 'mp4':
       case 'webm':
       case 'mov':
       case 'avi':
-        return { icon: <Video size={20} />, bg: 'rgba(168, 85, 247, 0.1)', color: '#a855f7' };
+        return <Video size={20} />;
       case 'pdf':
-        return { icon: <FileText size={20} />, bg: 'rgba(239, 68, 68, 0.1)', color: '#ef4444' };
-      case 'doc':
-      case 'docx':
-        return { icon: <FileText size={20} />, bg: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6' };
-      case 'ppt':
-      case 'pptx':
-        return { icon: <FileText size={20} />, bg: 'rgba(249, 115, 22, 0.1)', color: '#f97316' };
-      case 'xls':
-      case 'xlsx':
-      case 'csv':
-        return { icon: <FileText size={20} />, bg: 'rgba(34, 197, 94, 0.1)', color: '#16a34a' };
       case 'txt':
-        return { icon: <FileText size={20} />, bg: 'rgba(107, 114, 128, 0.1)', color: '#6b7280' };
+      case 'csv':
+        return <FileText size={20} />;
       default:
-        return { icon: <FileIcon size={20} />, bg: 'rgba(107, 114, 128, 0.1)', color: '#6b7280' };
+        return <FileIcon size={20} />;
     }
   };
   const [newFolderName, setNewFolderName] = useState('');
@@ -384,7 +374,7 @@ const Assets: React.FC = () => {
   const files = filteredAssets.filter(a => a.type === 'file').sort(sortAssets);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ overflowX: 'hidden', maxWidth: '100%' }}>
       {/* Header and Actions */}
       <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
@@ -530,9 +520,9 @@ const Assets: React.FC = () => {
           
           {/* Folders List */}
           {folders.length > 0 && (
-            <section style={{ overflow: 'hidden', minWidth: 0, width: '100%' }}>
+            <section>
               <h3 className={styles.sectionTitle} style={{ fontSize: '1rem', marginBottom: '1rem', opacity: 0.8 }}>Folders</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(250px, 100%), 1fr))', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1rem' }}>
                 {folders.map(folder => (
                   <div 
                     key={folder.id} 
@@ -586,9 +576,9 @@ const Assets: React.FC = () => {
 
           {/* Files List */}
           {files.length > 0 && (
-            <section style={{ overflow: 'hidden', minWidth: 0, width: '100%' }}>
+            <section>
               <h3 className={styles.sectionTitle} style={{ fontSize: '1rem', marginBottom: '1rem', opacity: 0.8 }}>Files</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', width: '100%', boxSizing: 'border-box' }}>
                 {files.map((file) => (
                   <div 
                     key={file.id} 
@@ -596,11 +586,10 @@ const Assets: React.FC = () => {
                     onClick={(e) => handleView(e, file)}
                     style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid var(--border-color)', cursor: 'pointer', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', minWidth: 0, flex: 1, overflow: 'hidden' }}>
-                      {(() => { const fi = getFileIcon(file.title); return (
-                      <div className={styles.iconWrapper} style={{ background: fi.bg, color: fi.color, padding: '0.5rem', borderRadius: '8px', flexShrink: 0 }}>
-                        {fi.icon}
-                      </div>); })()}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0, flex: 1 }}>
+                      <div className={styles.iconWrapper} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.5rem', borderRadius: '8px', flexShrink: 0 }}>
+                        {getFileIcon(file.title)}
+                      </div>
                       <div style={{ minWidth: 0, flex: 1, paddingRight: '0.5rem' }}>
                         <h4 style={{ margin: '0 0 0.25rem 0', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0, width: '100%' }}>
                           <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, minWidth: 0 }}>{file.title}</span>
