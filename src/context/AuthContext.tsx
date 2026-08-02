@@ -29,8 +29,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Listen for auth changes FIRST (Supabase best practice)
+    let sessionHandled = false;
+
+    // onAuthStateChange fires with INITIAL_SESSION once Supabase finishes
+    // recovering the session from storage (including async native storage).
+    // This is the MOST RELIABLE way to detect an existing session on native.
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      sessionHandled = true;
       setSession(session);
       if (session?.user) {
         fetchUserProfile(session.user);
@@ -40,36 +45,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     });
 
-    // Get initial session
-    // On native platforms, Capacitor Preferences is async and needs a moment
-    // to read from disk. We warm it up first to avoid a race condition where
-    // getSession() returns null before storage has loaded the saved tokens.
-    const initSession = async () => {
-      try {
-        // Warm up native storage by reading the Supabase auth key
-        // This ensures Preferences has loaded before getSession reads it
-        const { Capacitor } = await import('@capacitor/core');
-        if (Capacitor.isNativePlatform()) {
-          const { Preferences } = await import('@capacitor/preferences');
-          await Preferences.get({ key: 'sb-hfpunlwbzrscunpajjcl-auth-token' });
+    // Safety net: if onAuthStateChange hasn't fired within 3 seconds
+    // (e.g. network issues, cold storage), try getSession as a fallback.
+    const safetyTimer = setTimeout(async () => {
+      if (!sessionHandled) {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!sessionHandled) {
+          sessionHandled = true;
+          setSession(session);
+          if (session?.user) {
+            fetchUserProfile(session.user);
+          } else {
+            setLoading(false);
+          }
         }
-      } catch (_) {
-        // Ignore - non-native or plugin not available
       }
-      
-      const { data: { session } } = await supabase.auth.getSession();
-      // Only update if onAuthStateChange hasn't already fired
-      if (session?.user) {
-        setSession(session);
-        fetchUserProfile(session.user);
-      } else {
-        setLoading(false);
-      }
-    };
-    
-    initSession();
+    }, 3000);
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(safetyTimer);
+    };
   }, []);
 
   const fetchUserProfile = async (authUser: SupabaseUser) => {
