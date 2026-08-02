@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { Capacitor } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 import type { Session, User as SupabaseUser } from '@supabase/supabase-js';
+
+const SESSION_KEY = 'attendo-session-tokens';
 
 export interface User {
   id: string;
@@ -23,48 +27,126 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+/**
+ * Save session tokens to Capacitor Preferences (Android SharedPreferences).
+ * This is our own manual backup — completely independent from Supabase's
+ * internal storage mechanism. SharedPreferences persists across app restarts.
+ */
+async function saveSessionToNative(session: Session) {
+  if (!Capacitor.isNativePlatform()) return;
+  try {
+    await Preferences.set({
+      key: SESSION_KEY,
+      value: JSON.stringify({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+      }),
+    });
+  } catch (_) {
+    // Silent fail — not critical, localStorage is primary
+  }
+}
+
+/**
+ * Clear saved session from Capacitor Preferences.
+ */
+async function clearNativeSession() {
+  if (!Capacitor.isNativePlatform()) return;
+  try {
+    await Preferences.remove({ key: SESSION_KEY });
+  } catch (_) {}
+}
+
+/**
+ * Try to restore session from Capacitor Preferences.
+ * If tokens exist, calls supabase.auth.setSession() which validates
+ * and refreshes them. Returns the restored session or null.
+ */
+async function restoreSessionFromNative(): Promise<Session | null> {
+  if (!Capacitor.isNativePlatform()) return null;
+  try {
+    const { value } = await Preferences.get({ key: SESSION_KEY });
+    if (!value) return null;
+
+    const { access_token, refresh_token } = JSON.parse(value);
+    if (!access_token || !refresh_token) return null;
+
+    // setSession validates and refreshes the tokens with Supabase
+    const { data, error } = await supabase.auth.setSession({
+      access_token,
+      refresh_token,
+    });
+
+    if (error || !data.session) {
+      // Tokens are invalid/expired — clean up
+      await clearNativeSession();
+      return null;
+    }
+
+    return data.session;
+  } catch (_) {
+    return null;
+  }
+}
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let sessionHandled = false;
+    let isMounted = true;
 
-    // onAuthStateChange fires with INITIAL_SESSION once Supabase finishes
-    // recovering the session from storage (including async native storage).
-    // This is the MOST RELIABLE way to detect an existing session on native.
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      sessionHandled = true;
+    const initAuth = async () => {
+      // Step 1: Try Supabase's built-in getSession (uses localStorage)
+      const { data: { session: existingSession } } = await supabase.auth.getSession();
+
+      if (existingSession?.user) {
+        if (isMounted) {
+          setSession(existingSession);
+          fetchUserProfile(existingSession.user);
+          // Also save to native as backup
+          saveSessionToNative(existingSession);
+        }
+        return;
+      }
+
+      // Step 2: localStorage was empty — try restoring from Capacitor Preferences
+      // This handles the case where the WebView cleared localStorage on restart
+      const restoredSession = await restoreSessionFromNative();
+      if (restoredSession?.user && isMounted) {
+        setSession(restoredSession);
+        fetchUserProfile(restoredSession.user);
+        return;
+      }
+
+      // Step 3: No session anywhere — user needs to log in
+      if (isMounted) {
+        setLoading(false);
+      }
+    };
+
+    // Listen for future auth changes (login, logout, token refresh)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!isMounted) return;
+
       setSession(session);
       if (session?.user) {
         fetchUserProfile(session.user);
+        // Persist to native storage on every auth change
+        saveSessionToNative(session);
       } else {
         setUser(null);
         setLoading(false);
+        clearNativeSession();
       }
     });
 
-    // Safety net: if onAuthStateChange hasn't fired within 3 seconds
-    // (e.g. network issues, cold storage), try getSession as a fallback.
-    const safetyTimer = setTimeout(async () => {
-      if (!sessionHandled) {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!sessionHandled) {
-          sessionHandled = true;
-          setSession(session);
-          if (session?.user) {
-            fetchUserProfile(session.user);
-          } else {
-            setLoading(false);
-          }
-        }
-      }
-    }, 3000);
+    initAuth();
 
     return () => {
+      isMounted = false;
       subscription.unsubscribe();
-      clearTimeout(safetyTimer);
     };
   }, []);
 
@@ -95,6 +177,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = async () => {
+    await clearNativeSession();
     await supabase.auth.signOut();
   };
 
