@@ -127,7 +127,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     // Listen for future auth changes (login, logout, token refresh)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!isMounted) return;
 
       setSession(session);
@@ -138,7 +138,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else {
         setUser(null);
         setLoading(false);
-        clearNativeSession();
+        // ONLY clear if the user explicitly signed out.
+        // If it's just the INITIAL_SESSION event with a null session (because localStorage
+        // was empty on app start), we MUST NOT clear the backup!
+        if (event === 'SIGNED_OUT') {
+          clearNativeSession();
+        }
       }
     });
 
