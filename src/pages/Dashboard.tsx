@@ -48,15 +48,15 @@ const Dashboard: React.FC = () => {
       
       <main className={styles.mainContent}>
         <header className={styles.mobileHeader}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Menu 
-              size={22} 
+              size={24} 
               color="var(--text-secondary)" 
-              style={{ marginRight: '0.25rem', cursor: 'pointer' }} 
+              style={{ cursor: 'pointer' }} 
               onClick={() => setIsSidebarOpen(true)}
             />
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer' }} onClick={() => setActiveTab('overview')}>
-              <img src="/logo.png" alt="AttenDo" className={styles.mobileLogo} style={{ height: '40px' }} />
+              <img src="/logo.png" alt="AttenDo" className={styles.mobileLogo} style={{ height: '45px' }} />
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
