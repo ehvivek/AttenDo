@@ -79,6 +79,12 @@ export const TimetableProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   };
 
   const addOverride = async (override: Omit<TimetableOverride, 'id' | 'created_at'>) => {
+    const tempId = `temp-${Date.now()}`;
+    const optimisticOverride = { ...override, id: tempId } as TimetableOverride;
+    
+    // Optimistic Update
+    setOverrides(prev => [...prev, optimisticOverride]);
+
     try {
       const { data, error } = await supabase
         .from('timetable_overrides')
@@ -89,7 +95,8 @@ export const TimetableProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (error) throw error;
       
       if (data) {
-        setOverrides(prev => [...prev, data as TimetableOverride]);
+        // Replace temp with real DB record
+        setOverrides(prev => prev.map(o => o.id === tempId ? (data as TimetableOverride) : o));
 
         let notifTitle = '';
         let notifMessage = '';
@@ -106,22 +113,30 @@ export const TimetableProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         }
         
         if (notifTitle) {
-          await supabase.from('notifications').insert({
+          // Fire and forget notification
+          supabase.from('notifications').insert({
             title: notifTitle,
             message: notifMessage,
             link: 'timetable',
             target_batch: override.batch || 'All',
             type: 'class'
-          });
+          }).then();
         }
       }
     } catch (err) {
       console.error('Error adding override:', err);
+      // Revert on error
+      setOverrides(prev => prev.filter(o => o.id !== tempId));
       throw err;
     }
   };
 
   const deleteOverride = async (id: string) => {
+    const previousOverrides = [...overrides];
+    
+    // Optimistic Update
+    setOverrides(prev => prev.filter(o => o.id !== id));
+
     try {
       const { error } = await supabase
         .from('timetable_overrides')
@@ -129,10 +144,10 @@ export const TimetableProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         .eq('id', id);
 
       if (error) throw error;
-      
-      setOverrides(prev => prev.filter(o => o.id !== id));
     } catch (err) {
       console.error('Error deleting override:', err);
+      // Revert on error
+      setOverrides(previousOverrides);
       throw err;
     }
   };
