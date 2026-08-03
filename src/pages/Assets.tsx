@@ -71,15 +71,36 @@ const Assets: React.FC = () => {
 
   useEffect(() => {
     if (user) {
+      // First load from local storage
       const savedReads = localStorage.getItem(`attendo_read_assets_${user.id}`);
       if (savedReads) setReadAssets(new Set(JSON.parse(savedReads)));
       
       const savedPins = localStorage.getItem(`attendo_pinned_assets_${user.id}`);
       if (savedPins) setStudentPins(new Set(JSON.parse(savedPins)));
+
+      // Then sync from Supabase user metadata
+      supabase.auth.getUser().then(({ data: { user: authUser } }) => {
+        if (authUser && authUser.user_metadata) {
+          if (authUser.user_metadata.read_assets) {
+            setReadAssets(prev => {
+              const merged = new Set([...prev, ...authUser.user_metadata.read_assets]);
+              localStorage.setItem(`attendo_read_assets_${user.id}`, JSON.stringify([...merged]));
+              return merged;
+            });
+          }
+          if (authUser.user_metadata.pinned_assets) {
+            setStudentPins(prev => {
+              const merged = new Set([...prev, ...authUser.user_metadata.pinned_assets]);
+              localStorage.setItem(`attendo_pinned_assets_${user.id}`, JSON.stringify([...merged]));
+              return merged;
+            });
+          }
+        }
+      });
     }
   }, [user]);
 
-  const toggleStudentPin = (e: React.MouseEvent, assetId: string) => {
+  const toggleStudentPin = async (e: React.MouseEvent, assetId: string) => {
     e.stopPropagation();
     if (!user) return;
     const newSet = new Set(studentPins);
@@ -89,7 +110,12 @@ const Assets: React.FC = () => {
       newSet.add(assetId);
     }
     setStudentPins(newSet);
-    localStorage.setItem(`attendo_pinned_assets_${user.id}`, JSON.stringify([...newSet]));
+    const arr = [...newSet];
+    localStorage.setItem(`attendo_pinned_assets_${user.id}`, JSON.stringify(arr));
+    
+    await supabase.auth.updateUser({
+      data: { pinned_assets: arr }
+    });
   };
 
   const toggleAdminPin = async (e: React.MouseEvent, asset: Asset) => {
@@ -108,11 +134,16 @@ const Assets: React.FC = () => {
     }
   };
 
-  const markAsRead = (assetId: string) => {
+  const markAsRead = async (assetId: string) => {
     if (!user) return;
     const newSet = new Set(readAssets).add(assetId);
     setReadAssets(newSet);
-    localStorage.setItem(`attendo_read_assets_${user.id}`, JSON.stringify([...newSet]));
+    const arr = [...newSet].slice(-200); // limit to 200 to prevent metadata bloat
+    localStorage.setItem(`attendo_read_assets_${user.id}`, JSON.stringify(arr));
+    
+    await supabase.auth.updateUser({
+      data: { read_assets: arr }
+    });
   };
 
   const isNew = (created_at: string) => {
