@@ -50,7 +50,8 @@ const Timetable: React.FC = () => {
 
   const subjectClassCounts = todaysClasses.reduce((acc, curr) => {
     if (!curr.isCancelled) {
-      acc[curr.subjectCode] = (acc[curr.subjectCode] || 0) + 1;
+      const key = `${curr.subjectCode}-${curr.type}`;
+      acc[key] = (acc[key] || 0) + 1;
     }
     return acc;
   }, {} as Record<string, number>);
@@ -185,10 +186,11 @@ const Timetable: React.FC = () => {
                   (r.startTime === session.startTime || !r.startTime)
                 );
 
-                const isMultiple = subjectClassCounts[session.subjectCode] > 1 && !session.isCancelled;
+                const key = `${session.subjectCode}-${session.type}`;
+                const isMultiple = subjectClassCounts[key] > 1 && !session.isCancelled;
                 let sessionTag = null;
                 if (isMultiple) {
-                  subjectSessionIndices[session.subjectCode] = (subjectSessionIndices[session.subjectCode] || 0) + 1;
+                  subjectSessionIndices[key] = (subjectSessionIndices[key] || 0) + 1;
                   sessionTag = (
                     <motion.span 
                       animate={{ opacity: [0.7, 1, 0.7], scale: [1, 1.05, 1] }}
@@ -208,7 +210,7 @@ const Timetable: React.FC = () => {
                         lineHeight: 1
                       }}
                     >
-                      Session {subjectSessionIndices[session.subjectCode]}
+                      Session {subjectSessionIndices[key]}
                     </motion.span>
                   );
                 }
