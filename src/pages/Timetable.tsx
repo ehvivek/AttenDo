@@ -41,10 +41,10 @@ const Timetable: React.FC = () => {
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const currentDayStr = daysOfWeek[targetDate.getDay()];
   
-  // Rolling 14-day window (7 days back, today, 7 days forward)
+  // Rolling 28-day window (14 days back, today, 14 days forward)
   // This automatically shifts as the days pass
-  const minOffset = -7;
-  const maxOffset = 7;
+  const minOffset = -14;
+  const maxOffset = 14;
   
   const todaysClasses = getClassesForDay(targetDate, batch);
 
