@@ -92,6 +92,18 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       return;
     }
     
+    // Sync deleted IDs from Supabase user metadata on login
+    supabase.auth.getUser().then(({ data: { user: authUser } }) => {
+      if (authUser && authUser.user_metadata?.deleted_notifs) {
+        const fromDb = authUser.user_metadata.deleted_notifs as string[];
+        setDeletedIds(prev => {
+          const merged = new Set([...prev, ...fromDb]);
+          localStorage.setItem('attendo_deleted_notifs', JSON.stringify([...merged]));
+          return merged;
+        });
+      }
+    });
+
     fetchNotifications();
     
     // Subscribe to new notifications
@@ -216,17 +228,29 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   };
 
-  const deleteNotification = (id: string) => {
+  const deleteNotification = async (id: string) => {
     const newDeleted = new Set(deletedIds).add(id);
     setDeletedIds(newDeleted);
-    localStorage.setItem('attendo_deleted_notifs', JSON.stringify([...newDeleted]));
+    const arr = [...newDeleted].slice(-100); // keep max 100 recent deletions to prevent metadata bloat
+    localStorage.setItem('attendo_deleted_notifs', JSON.stringify(arr));
+    
+    // Sync with Supabase so other devices know
+    await supabase.auth.updateUser({
+      data: { deleted_notifs: arr }
+    });
   };
 
-  const clearAllNotifications = () => {
+  const clearAllNotifications = async () => {
     const allIds = notifications.map(n => n.id);
     const newDeleted = new Set([...deletedIds, ...allIds]);
     setDeletedIds(newDeleted);
-    localStorage.setItem('attendo_deleted_notifs', JSON.stringify([...newDeleted]));
+    const arr = [...newDeleted].slice(-100);
+    localStorage.setItem('attendo_deleted_notifs', JSON.stringify(arr));
+    
+    // Sync with Supabase so other devices know
+    await supabase.auth.updateUser({
+      data: { deleted_notifs: arr }
+    });
   };
 
   const visibleNotifications = notifications.filter(n => !deletedIds.has(n.id));
