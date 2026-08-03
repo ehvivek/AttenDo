@@ -55,9 +55,11 @@ export const generateReportCardPDF = async (records: AttendanceRecord[], user: U
   doc.setFillColor(...accentColor);
   doc.rect(0, 40, pageWidth, 2.5, 'F');
 
-  // Fox Logo
+  // Logo inside a white rounded box
   if (logoBase64) {
-    doc.addImage(logoBase64, 'PNG', margin + 2, 8, 24, 24);
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(margin + 2, 8, 24, 24, 4, 4, 'F');
+    doc.addImage(logoBase64, 'PNG', margin + 4, 10, 20, 20);
   }
 
   // App name next to logo
