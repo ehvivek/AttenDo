@@ -12,12 +12,20 @@ import { LayoutDashboard, CheckCircle, BarChart3, Calendar, Folder, Bell, Compas
 import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
 import NotificationsView from './NotificationsView';
+import { playTabSound } from '../utils/audio';
 
 const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, _setActiveTab] = useState('overview');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useAuth();
   const { unreadCount } = useNotifications();
+
+  const setActiveTab = (tab: string) => {
+    if (tab !== activeTab) {
+      playTabSound(tab);
+      _setActiveTab(tab);
+    }
+  };
 
   const renderContent = () => {
     switch (activeTab) {
