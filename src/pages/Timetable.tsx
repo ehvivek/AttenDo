@@ -197,13 +197,15 @@ const Timetable: React.FC = () => {
                         color: '#F59E0B', 
                         textShadow: '0 0 8px rgba(245, 158, 11, 0.4)',
                         fontWeight: 700,
-                        fontSize: '0.75rem',
-                        marginLeft: '0.5rem',
-                        padding: '0.15rem 0.5rem',
+                        fontSize: '0.65rem',
+                        marginLeft: '0.4rem',
+                        padding: '0.1rem 0.4rem',
                         backgroundColor: 'rgba(245, 158, 11, 0.1)',
                         borderRadius: '12px',
                         display: 'inline-block',
-                        verticalAlign: 'middle'
+                        verticalAlign: 'middle',
+                        whiteSpace: 'nowrap',
+                        lineHeight: 1
                       }}
                     >
                       Session {subjectSessionIndices[session.subjectCode]}
