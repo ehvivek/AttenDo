@@ -74,3 +74,32 @@
   font-size: 0.75rem;
   color: var(--danger-color);
 }
+
+.dateInput {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Hide the default webkit calendar icon but make the tap target cover the input */
+.dateInput::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  opacity: 0;
+  color: transparent;
+  background: transparent;
+  cursor: pointer;
+}
+
+.calendarIconWrapper {
+  position: absolute;
+  right: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
