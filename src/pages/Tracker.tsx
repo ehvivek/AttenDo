@@ -6,6 +6,7 @@ import { Trash2, Search, Download, FileText } from 'lucide-react';
 import ExcelJS from 'exceljs';
 import { generateReportCardPDF } from '../utils/pdfReport';
 import { downloadFile } from '../utils/nativeDownload';
+import { formatTime12Hour } from '../utils/dateUtils';
 
 const Tracker: React.FC = () => {
   const { records, courses, deleteRecord } = useAttendance();
@@ -60,7 +61,7 @@ const Tracker: React.FC = () => {
     filteredRecords.forEach(record => {
       wsOverall.addRow({
         date: new Date(record.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
-        time: record.startTime || '-',
+        time: formatTime12Hour(record.startTime),
         code: record.courseCode,
         name: courses.find(c => c.code === record.courseCode)?.name || record.courseCode,
         status: record.status,
@@ -90,7 +91,7 @@ const Tracker: React.FC = () => {
       subjectRecords.forEach(record => {
         wsSubject.addRow({
           date: new Date(record.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
-          time: record.startTime || '-',
+          time: formatTime12Hour(record.startTime),
           status: record.status,
           note: record.note || ''
         });
@@ -184,7 +185,7 @@ const Tracker: React.FC = () => {
                 return (
                   <tr key={record.id}>
                     <td>{new Date(record.date).toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</td>
-                    <td style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>{record.startTime || '-'}</td>
+                    <td style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>{formatTime12Hour(record.startTime)}</td>
                     <td>
                       <div className={styles.tableSubject}>
                         <span className={styles.tableCourseName}>{courseName}</span>
