@@ -211,6 +211,25 @@ const Settings: React.FC = () => {
         </div>
 
         <div style={{ marginTop: '2rem' }}>
+          <h2 className={styles.sectionTitle}>Contact</h2>
+          <div className={styles.statCard} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1rem', padding: '1.5rem', lineHeight: '1.6' }}>
+            <p style={{ margin: 0, color: 'var(--text-color)' }}>
+              For any queries or feedback, please email{' '}
+              <a href="mailto:25ce3061@rgipt.ac.in" style={{ color: 'var(--accent-color)', fontWeight: 600, textDecoration: 'none' }}>
+                25ce3061@rgipt.ac.in
+              </a>
+            </p>
+            <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+              Please write <strong>"AttenDo"</strong> as the subject of your email and describe your query, issue, or feedback in the email body.
+            </p>
+            <div style={{ marginTop: '1rem' }}>
+              <p style={{ margin: 0, fontFamily: 'cursive', fontSize: '1.5rem', color: 'var(--text-color)' }}>Thank you,</p>
+              <p style={{ margin: 0, fontFamily: 'cursive', fontSize: '1.5rem', color: 'var(--accent-color)' }}>Vivek Kumar</p>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ marginTop: '2rem' }}>
           <h2 className={styles.sectionTitle} style={{ color: 'var(--danger-color)' }}>Account Actions</h2>
           <div className={styles.statCard} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Log out of your account on this device.</p>
