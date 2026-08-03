@@ -35,7 +35,7 @@ const Settings: React.FC = () => {
         });
         if (error) throw error;
         localStorage.setItem('soundEnabled', soundEnabled.toString());
-        setMessage('Settings saved! Please refresh the page to apply changes.');
+        setMessage('Settings saved successfully!');
         setTimeout(() => setMessage(''), 3000);
       } catch (err: any) {
         setMessage('Failed to save settings: ' + err.message);
