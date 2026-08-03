@@ -223,7 +223,7 @@ const Settings: React.FC = () => {
               Please write <strong>"AttenDo"</strong> as the subject of your email and describe your query, issue, or feedback in the email body.
             </p>
             <div style={{ marginTop: '1.5rem', lineHeight: '1.2' }}>
-              <p style={{ margin: 0, fontFamily: '"Great Vibes", cursive', fontSize: '2rem', color: 'var(--text-color)' }}>Thank you,</p>
+              <p style={{ margin: 0, fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-color)' }}>Thank you,</p>
               <p style={{ margin: 0, fontFamily: '"Great Vibes", cursive', fontSize: '2.5rem', color: 'var(--accent-color)' }}>Vivek Kumar</p>
             </div>
           </div>
