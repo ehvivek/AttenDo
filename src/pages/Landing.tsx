@@ -19,11 +19,11 @@ const Landing: React.FC = () => {
       
       <main className={styles.main}>
         <div className={styles.heroImageContainer}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
             <div className={styles.logoWrapper}>
               <img src="/logo.png" alt="Logo" className={styles.logo} />
             </div>
-            <h2 style={{ fontSize: '2.5rem', fontWeight: 700, fontFamily: 'cursive', marginTop: '1rem', marginBottom: '0', color: 'var(--text-color)' }}>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: 700, fontFamily: 'cursive', margin: 0, color: 'var(--text-color)' }}>
               AttenDo
             </h2>
           </div>
