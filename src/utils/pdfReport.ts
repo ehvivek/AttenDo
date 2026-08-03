@@ -255,6 +255,22 @@ export const generateReportCardPDF = async (records: AttendanceRecord[], user: U
   doc.text('Attendance Comparison', margin, y);
   y += 8;
 
+  const tableColumn = ["Date", "Time", "Subject Code", "Subject Name", "Status", "Note"];
+  const tableRows: any[] = [];
+
+  records.forEach(record => {
+    const courseData = courses.find(c => c.code === record.courseCode);
+    const recordData = [
+      new Date(record.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
+      record.startTime || '-',
+      record.courseCode,
+      courseData?.name || record.courseCode,
+      record.status,
+      record.note || ''
+    ];
+    tableRows.push(recordData);
+  });
+
   const labelWidth = 28;
   const barMaxWidth = contentWidth - labelWidth - 16;
   const barHeight = 8;

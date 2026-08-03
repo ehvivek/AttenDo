@@ -44,10 +44,10 @@ const Tracker: React.FC = () => {
       });
     };
 
-    // 1. Create the Overall sheet
     const wsOverall = workbook.addWorksheet('Overall');
     wsOverall.columns = [
       { header: 'Date', key: 'date', width: 15 },
+      { header: 'Time', key: 'time', width: 10 },
       { header: 'Subject Code', key: 'code', width: 15 },
       { header: 'Subject Name', key: 'name', width: 45 },
       { header: 'Status', key: 'status', width: 15 },
@@ -60,6 +60,7 @@ const Tracker: React.FC = () => {
     filteredRecords.forEach(record => {
       wsOverall.addRow({
         date: new Date(record.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
+        time: record.startTime || '-',
         code: record.courseCode,
         name: courses.find(c => c.code === record.courseCode)?.name || record.courseCode,
         status: record.status,
@@ -67,7 +68,7 @@ const Tracker: React.FC = () => {
       });
     });
 
-    styleStatusColumn(wsOverall, 4);
+    styleStatusColumn(wsOverall, 5);
 
     // 2. Create separate sheets for each subject
     const subjects = Array.from(new Set(filteredRecords.map(r => r.courseCode)));
@@ -78,6 +79,7 @@ const Tracker: React.FC = () => {
       
       wsSubject.columns = [
         { header: 'Date', key: 'date', width: 15 },
+        { header: 'Time', key: 'time', width: 10 },
         { header: 'Status', key: 'status', width: 15 },
         { header: 'Note', key: 'note', width: 40 }
       ];
@@ -88,12 +90,13 @@ const Tracker: React.FC = () => {
       subjectRecords.forEach(record => {
         wsSubject.addRow({
           date: new Date(record.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }),
+          time: record.startTime || '-',
           status: record.status,
           note: record.note || ''
         });
       });
       
-      styleStatusColumn(wsSubject, 2);
+      styleStatusColumn(wsSubject, 3);
     });
 
     // 3. Generate and download file
@@ -168,6 +171,7 @@ const Tracker: React.FC = () => {
             <thead>
               <tr>
                 <th>Date</th>
+                <th>Time</th>
                 <th>Subject</th>
                 <th>Status</th>
                 <th>Note</th>
@@ -180,6 +184,7 @@ const Tracker: React.FC = () => {
                 return (
                   <tr key={record.id}>
                     <td>{new Date(record.date).toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                    <td style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>{record.startTime || '-'}</td>
                     <td>
                       <div className={styles.tableSubject}>
                         <span className={styles.tableCourseName}>{courseName}</span>

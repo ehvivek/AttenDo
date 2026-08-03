@@ -6,6 +6,7 @@ export interface AttendanceRecord {
   id: string;
   courseCode: string;
   date: string;
+  startTime?: string;
   status: 'Present' | 'Absent';
   note?: string;
 }
@@ -65,6 +66,7 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       id: row.id,
       courseCode: row.course_code,
       date: row.date,
+      startTime: row.start_time,
       status: row.status,
       note: row.note
     }));
@@ -87,6 +89,7 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         user_id: user.id,
         course_code: record.courseCode,
         date: record.date,
+        start_time: record.startTime,
         status: record.status,
         note: record.note
       })
@@ -103,6 +106,7 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         id: data.id,
         courseCode: data.course_code,
         date: data.date,
+        startTime: data.start_time,
         status: data.status,
         note: data.note
       } : r));
@@ -138,6 +142,7 @@ export const AttendanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const updates: any = {};
     if (updatedRecord.courseCode) updates.course_code = updatedRecord.courseCode;
     if (updatedRecord.date) updates.date = updatedRecord.date;
+    if (updatedRecord.startTime !== undefined) updates.start_time = updatedRecord.startTime;
     if (updatedRecord.status) updates.status = updatedRecord.status;
     if (updatedRecord.note !== undefined) updates.note = updatedRecord.note;
 

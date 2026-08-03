@@ -48,6 +48,15 @@ const Timetable: React.FC = () => {
   
   const todaysClasses = getClassesForDay(targetDate, batch);
 
+  const subjectClassCounts = todaysClasses.reduce((acc, curr) => {
+    if (!curr.isCancelled) {
+      acc[curr.subjectCode] = (acc[curr.subjectCode] || 0) + 1;
+    }
+    return acc;
+  }, {} as Record<string, number>);
+  
+  const subjectSessionIndices: Record<string, number> = {};
+
   const timeToMinutes = (timeStr: string) => {
     const [hours, minutes] = timeStr.split(':').map(Number);
     return hours * 60 + minutes;
@@ -168,7 +177,39 @@ const Timetable: React.FC = () => {
               {todaysClasses.map((session, index) => {
                 const status = getStatus(session);
                 const targetDateStr = getLocalDateString(targetDate);
-                const existingRecord = records.find(r => r.courseCode === session.subjectCode && r.date === targetDateStr);
+                
+                // For legacy records without startTime, we might still match multiple, but going forward it will be precise.
+                const existingRecord = records.find(r => 
+                  r.courseCode === session.subjectCode && 
+                  r.date === targetDateStr &&
+                  (r.startTime === session.startTime || !r.startTime)
+                );
+
+                const isMultiple = subjectClassCounts[session.subjectCode] > 1 && !session.isCancelled;
+                let sessionTag = null;
+                if (isMultiple) {
+                  subjectSessionIndices[session.subjectCode] = (subjectSessionIndices[session.subjectCode] || 0) + 1;
+                  sessionTag = (
+                    <motion.span 
+                      animate={{ opacity: [0.7, 1, 0.7], scale: [1, 1.05, 1] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                      style={{ 
+                        color: '#F59E0B', 
+                        textShadow: '0 0 8px rgba(245, 158, 11, 0.4)',
+                        fontWeight: 700,
+                        fontSize: '0.75rem',
+                        marginLeft: '0.5rem',
+                        padding: '0.15rem 0.5rem',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        borderRadius: '12px',
+                        display: 'inline-block',
+                        verticalAlign: 'middle'
+                      }}
+                    >
+                      Session {subjectSessionIndices[session.subjectCode]}
+                    </motion.span>
+                  );
+                }
 
                 return (
                   <motion.div
@@ -189,8 +230,9 @@ const Timetable: React.FC = () => {
                       <div className={styles.classHeader}>
                         <div className={styles.classTitleGroup}>
                           {getIcon(session.type)}
-                          <h3 className={styles.subjectName} style={{ textDecoration: session.isCancelled ? 'line-through' : 'none', opacity: session.isCancelled ? 0.5 : 1 }}>
+                          <h3 className={styles.subjectName} style={{ textDecoration: session.isCancelled ? 'line-through' : 'none', opacity: session.isCancelled ? 0.5 : 1, display: 'flex', alignItems: 'center' }}>
                             {session.subjectName}
+                            {sessionTag}
                           </h3>
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -270,6 +312,7 @@ const Timetable: React.FC = () => {
                               addRecord({
                                 courseCode: session.subjectCode,
                                 date: targetDateStr,
+                                startTime: session.startTime,
                                 status: 'Present'
                               });
                             }}
@@ -283,6 +326,7 @@ const Timetable: React.FC = () => {
                               addRecord({
                                 courseCode: session.subjectCode,
                                 date: targetDateStr,
+                                startTime: session.startTime,
                                 status: 'Absent'
                               });
                             }}
