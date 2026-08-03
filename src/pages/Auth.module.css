@@ -45,11 +45,8 @@
 }
 
 .logo {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background-color: var(--text-color);
-  padding: 0.5rem;
+  height: 64px;
+  width: auto;
   margin-bottom: 1.5rem;
   cursor: pointer;
   object-fit: contain;

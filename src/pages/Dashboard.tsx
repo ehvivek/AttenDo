@@ -56,7 +56,7 @@ const Dashboard: React.FC = () => {
               onClick={() => setIsSidebarOpen(true)}
             />
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer' }} onClick={() => setActiveTab('overview')}>
-              <img src="/logo.png" alt="AttenDo" className={styles.mobileLogo} style={{ height: '36px' }} />
+              <img src="/logo.png" alt="AttenDo" className={styles.mobileLogo} style={{ height: '48px' }} />
               <span style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-color)', fontFamily: 'cursive' }}>AttenDo</span>
             </div>
           </div>
