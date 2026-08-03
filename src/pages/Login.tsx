@@ -59,7 +59,7 @@ const Login: React.FC = () => {
           <ArrowLeft size={20} />
         </button>
         <div className={styles.header}>
-          <img src="/logovg.png" alt="AttenDo Logo" className={styles.logo} onClick={() => navigate('/')} />
+          <img src="/logo.png" alt="AttenDo Logo" className={styles.logo} onClick={() => navigate('/')} />
           <h1 className={styles.title}>Welcome back</h1>
           <p className={styles.subtitle}>Log in to manage your attendance.</p>
         </div>

@@ -82,7 +82,7 @@ const Signup: React.FC = () => {
           <ArrowLeft size={20} />
         </button>
         <div className={styles.header}>
-          <img src="/logovg.png" alt="AttenDo Logo" className={styles.logo} onClick={() => navigate('/')} />
+          <img src="/logo.png" alt="AttenDo Logo" className={styles.logo} onClick={() => navigate('/')} />
           <h1 className={styles.title}>Create an account</h1>
           <p className={styles.subtitle}>Enter your details to get started.</p>
         </div>

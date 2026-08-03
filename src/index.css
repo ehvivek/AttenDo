@@ -179,3 +179,10 @@ input, select, textarea {
 * {
   -webkit-overflow-scrolling: touch;
 }
+
+[data-theme='dark'] img[src*="logo.png"],
+[data-theme='ocean'] img[src*="logo.png"],
+[data-theme='forest'] img[src*="logo.png"],
+[data-theme='cyberpunk'] img[src*="logo.png"] {
+  filter: invert(1) brightness(2);
+}

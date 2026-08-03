@@ -26,7 +26,7 @@ export const generateReportCardPDF = async (records: AttendanceRecord[], user: U
   // ── Load Logo ──
   let logoBase64: string | null = null;
   try {
-    const response = await fetch('/logovg.png');
+    const response = await fetch('/logo.png');
     const blob = await response.blob();
     logoBase64 = await new Promise<string>((resolve) => {
       const reader = new FileReader();
