@@ -34,8 +34,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, isOpe
       )}
       <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
         <div className={styles.header}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer' }} onClick={() => setActiveTab('overview')}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer', marginLeft: '-0.25rem' }} onClick={() => setActiveTab('overview')}>
           <img src="/logo.png" alt="Logo" className={styles.logo} />
+          <span style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-color)', fontFamily: 'cursive' }}>AttenDo</span>
         </div>
         <button 
           onClick={() => setActiveTab('notifications')}
