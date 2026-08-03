@@ -24,10 +24,7 @@
 
 .logo {
   width: auto;
-  height: 48px;
-  border-radius: 8px;
-  background-color: var(--text-color);
-  padding: 0.25rem;
+  height: 32px;
   cursor: pointer;
   object-fit: contain;
 }
