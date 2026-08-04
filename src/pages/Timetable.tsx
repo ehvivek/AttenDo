@@ -397,7 +397,7 @@ const Timetable: React.FC = () => {
               <select 
                 value={modalData.subjectCode} 
                 onChange={e => setModalData({...modalData, subjectCode: e.target.value})}
-                style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
+                style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
               >
                 {Object.keys(SUBJECT_NAMES).map(code => (
                   <option key={code} value={code}>{code} - {SUBJECT_NAMES[code]}</option>
@@ -410,7 +410,7 @@ const Timetable: React.FC = () => {
               <select 
                 value={modalData.type} 
                 onChange={e => setModalData({...modalData, type: e.target.value as any})}
-                style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
+                style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }}
               >
                 <option value="Theory">Theory</option>
                 <option value="Tutorial">Tutorial</option>
@@ -421,22 +421,22 @@ const Timetable: React.FC = () => {
             <div style={{ display: 'flex', gap: '1rem' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
                 <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>Start Time</label>
-                <input type="time" value={modalData.startTime} onChange={e => setModalData({...modalData, startTime: e.target.value})} style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
+                <input type="time" value={modalData.startTime} onChange={e => setModalData({...modalData, startTime: e.target.value})} style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
                 <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>End Time</label>
-                <input type="time" value={modalData.endTime} onChange={e => setModalData({...modalData, endTime: e.target.value})} style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
+                <input type="time" value={modalData.endTime} onChange={e => setModalData({...modalData, endTime: e.target.value})} style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
               </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>Room <span style={{ color: 'var(--text-secondary)', fontWeight: 400 }}>(Optional)</span></label>
-              <input type="text" value={modalData.room} onChange={e => setModalData({...modalData, room: e.target.value})} style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
+              <input type="text" value={modalData.room} onChange={e => setModalData({...modalData, room: e.target.value})} style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ fontSize: '0.875rem', fontWeight: 500 }}>Teacher <span style={{ color: 'var(--text-secondary)', fontWeight: 400 }}>(Optional)</span></label>
-              <input type="text" value={modalData.teacher} onChange={e => setModalData({...modalData, teacher: e.target.value})} style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
+              <input type="text" value={modalData.teacher} onChange={e => setModalData({...modalData, teacher: e.target.value})} style={{ padding: '0.5rem', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-color)', backgroundColor: 'var(--bg-color)', color: 'var(--text-color)' }} />
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '1rem' }}>
