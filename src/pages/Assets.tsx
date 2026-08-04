@@ -433,7 +433,7 @@ const Assets: React.FC = () => {
                 placeholder="Search..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ padding: '0.5rem 1rem 0.5rem 2.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', outline: 'none', background: 'var(--card-bg)', color: 'var(--text-color)', width: '200px' }}
+                style={{ padding: '0.5rem 1rem 0.5rem 2.25rem', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-color)', outline: 'none', background: 'var(--card-bg)', color: 'var(--text-color)', width: '200px' }}
               />
             </div>
 
@@ -449,7 +449,7 @@ const Assets: React.FC = () => {
                 <button 
                   className="btn-secondary"
                   onClick={() => setIsCreatingFolder(true)}
-                  style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', background: 'transparent', color: 'var(--text-color)', border: '1px solid var(--border-color)', cursor: 'pointer', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                  style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', background: 'transparent', color: 'var(--text-color)', border: '1.5px solid var(--border-color)', cursor: 'pointer', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.5rem' }}
                 >
                   <FolderPlus size={16} /> Create Folder
                 </button>
@@ -472,7 +472,7 @@ const Assets: React.FC = () => {
             initial={{ opacity: 0, height: 0 }} 
             animate={{ opacity: 1, height: 'auto' }} 
             className={styles.uploadProgressContainer}
-            style={{ marginTop: '1.5rem', background: 'var(--glass-bg)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}
+            style={{ marginTop: '1.5rem', background: 'var(--glass-bg)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-color)' }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
               <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--text-color)' }}>Uploading {fileInputRef.current?.files?.[0]?.name}...</span>
@@ -492,19 +492,19 @@ const Assets: React.FC = () => {
 
       {/* Create Folder Form */}
       {isCreatingFolder && (
-        <form onSubmit={handleCreateFolder} style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', background: 'var(--card-bg)', padding: '1rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)' }}>
+        <form onSubmit={handleCreateFolder} style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', background: 'var(--card-bg)', padding: '1rem', borderRadius: 'var(--radius-lg)', border: '1.5px solid var(--border-color)' }}>
           <input 
             type="text" 
             placeholder="Folder Name" 
             value={newFolderName}
             onChange={(e) => setNewFolderName(e.target.value)}
-            style={{ flex: 1, padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', outline: 'none' }}
+            style={{ flex: 1, padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', border: '1.5px solid var(--border-color)', outline: 'none' }}
             autoFocus
           />
           <button type="submit" style={{ padding: '0.5rem 1.5rem', borderRadius: 'var(--radius-md)', background: 'var(--accent-color)', color: 'var(--accent-text)', border: 'none', cursor: 'pointer', fontWeight: 500 }}>
             Create
           </button>
-          <button type="button" onClick={() => setIsCreatingFolder(false)} style={{ padding: '0.5rem 1.5rem', borderRadius: 'var(--radius-md)', background: 'transparent', color: 'var(--text-secondary)', border: '1px solid var(--border-color)', cursor: 'pointer', fontWeight: 500 }}>
+          <button type="button" onClick={() => setIsCreatingFolder(false)} style={{ padding: '0.5rem 1.5rem', borderRadius: 'var(--radius-md)', background: 'transparent', color: 'var(--text-secondary)', border: '1.5px solid var(--border-color)', cursor: 'pointer', fontWeight: 500 }}>
             Cancel
           </button>
         </form>
@@ -559,7 +559,7 @@ const Assets: React.FC = () => {
                     key={folder.id} 
                     onClick={() => openFolder(folder.id, folder.title)}
                     className={styles.statCard} 
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '1rem', border: '1px solid var(--border-color)', position: 'relative', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '1rem', border: '1.5px solid var(--border-color)', position: 'relative', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0, flex: 1 }}>
                       <div className={styles.iconWrapper} style={{ backgroundColor: `${folder.color || '#3b82f6'}1A`, color: folder.color || '#3b82f6', padding: '0.5rem', borderRadius: '8px', flexShrink: 0 }}>
@@ -615,7 +615,7 @@ const Assets: React.FC = () => {
                     key={file.id} 
                     className={styles.statCard} 
                     onClick={(e) => handleView(e, file)}
-                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1px solid var(--border-color)', cursor: 'pointer', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}
+                    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', border: '1.5px solid var(--border-color)', cursor: 'pointer', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: 0, flex: 1 }}>
                       <div className={styles.iconWrapper} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.5rem', borderRadius: '8px', flexShrink: 0 }}>
@@ -695,7 +695,7 @@ const Assets: React.FC = () => {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 10 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              style={{ background: 'var(--bg-color)', padding: '1.5rem', borderRadius: 'var(--radius-lg)', maxWidth: '360px', width: '100%', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-color)' }}
+              style={{ background: 'var(--bg-color)', padding: '1.5rem', borderRadius: 'var(--radius-lg)', maxWidth: '360px', width: '100%', boxShadow: 'var(--shadow-lg)', border: '1.5px solid var(--border-color)' }}
               onClick={(e) => e.stopPropagation()}
             >
               <h3 style={{ margin: '0 0 0.5rem 0', color: 'var(--text-color)', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '1.125rem' }}>
@@ -708,7 +708,7 @@ const Assets: React.FC = () => {
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
                 <button 
                   onClick={() => setAssetToDelete(null)}
-                  style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', background: 'transparent', color: 'var(--text-color)', border: '1px solid var(--border-color)', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500 }}
+                  style={{ padding: '0.5rem 1rem', borderRadius: 'var(--radius-md)', background: 'transparent', color: 'var(--text-color)', border: '1.5px solid var(--border-color)', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500 }}
                 >
                   Cancel
                 </button>
