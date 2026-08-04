@@ -863,6 +863,34 @@
   margin-bottom: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cornerHighlightGreen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border-top: 4px solid #10b981;
+  border-left: 4px solid #10b981;
+  border-top-left-radius: var(--radius-lg);
+  pointer-events: none;
+}
+
+.cornerHighlightRed::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border-top: 4px solid #ef4444;
+  border-left: 4px solid #ef4444;
+  border-top-left-radius: var(--radius-lg);
+  pointer-events: none;
 }
 
 .classHeader {

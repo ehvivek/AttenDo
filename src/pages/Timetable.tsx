@@ -251,7 +251,7 @@ const Timetable: React.FC = () => {
                     <div className={styles.timelineLine}>
                       <div className={styles.timelineDot} />
                     </div>
-                    <div className={styles.timelineContent}>
+                    <div className={`${styles.timelineContent} ${session.type === 'Tutorial' ? (session.subjectCode === 'MA123' ? styles.cornerHighlightRed : styles.cornerHighlightGreen) : ''}`}>
                       <div className={styles.classHeader}>
                         <div className={styles.classTitleGroup}>
                           {getIcon(session.type, session.subjectCode)}
