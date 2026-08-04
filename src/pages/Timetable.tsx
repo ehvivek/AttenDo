@@ -85,10 +85,21 @@ const Timetable: React.FC = () => {
     return `${h}:${minutes} ${ampm}`;
   };
 
-  const getIcon = (type: string) => {
+  const getIcon = (type: string, subjectCode: string) => {
+    const isMA123 = subjectCode === 'MA123';
+    
     if (type === 'Lab') return <FlaskConical size={18} className={styles.iconPurple} />;
-    if (type === 'Tutorial') return <div className={styles.iconGreen} style={{ width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: 'bold' }}>T</div>;
-    return <BookOpen size={18} className={styles.iconBlue} />;
+    if (type === 'Tutorial') {
+      return (
+        <div 
+          className={isMA123 ? styles.iconRed : styles.iconGreen} 
+          style={{ width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: 'bold' }}
+        >
+          T
+        </div>
+      );
+    }
+    return <BookOpen size={18} className={isMA123 ? styles.iconRed : styles.iconBlue} />;
   };
 
   return (
@@ -233,7 +244,7 @@ const Timetable: React.FC = () => {
                     <div className={styles.timelineContent}>
                       <div className={styles.classHeader}>
                         <div className={styles.classTitleGroup}>
-                          {getIcon(session.type)}
+                          {getIcon(session.type, session.subjectCode)}
                           <h3 className={styles.subjectName} style={{ textDecoration: session.isCancelled ? 'line-through' : 'none', opacity: session.isCancelled ? 0.5 : 1, display: 'flex', alignItems: 'center' }}>
                             {session.subjectName}
                             {sessionTag}
