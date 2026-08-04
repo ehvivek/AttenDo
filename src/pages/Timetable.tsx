@@ -94,15 +94,15 @@ const Timetable: React.FC = () => {
         <div 
           className={isMA123 ? styles.iconRed : styles.iconGreen} 
           style={{ 
-            width: 20, 
-            height: 20, 
+            width: 24, 
+            height: 24, 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
-            fontSize: '13px', 
+            fontSize: '14px', 
             fontWeight: 'bold',
             backgroundColor: isMA123 ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)',
-            borderRadius: '6px'
+            borderRadius: '8px'
           }}
         >
           T
