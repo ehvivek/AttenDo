@@ -88,7 +88,7 @@ const Timetable: React.FC = () => {
   const getIcon = (type: string, subjectCode: string) => {
     const isMA123 = subjectCode === 'MA123';
     
-    if (type === 'Lab') return <FlaskConical size={18} className={styles.iconPurple} />;
+    if (type === 'Lab') return <FlaskConical size={18} className={styles.iconPurple} style={{ flexShrink: 0 }} />;
     if (type === 'Tutorial') {
       return (
         <div 
@@ -96,6 +96,7 @@ const Timetable: React.FC = () => {
           style={{ 
             width: 24, 
             height: 24, 
+            flexShrink: 0,
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
@@ -109,7 +110,7 @@ const Timetable: React.FC = () => {
         </div>
       );
     }
-    return <BookOpen size={18} className={isMA123 ? styles.iconRed : styles.iconBlue} />;
+    return <BookOpen size={18} className={isMA123 ? styles.iconRed : styles.iconBlue} style={{ flexShrink: 0 }} />;
   };
 
   return (
