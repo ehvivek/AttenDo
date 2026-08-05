@@ -7,6 +7,7 @@ import ExcelJS from 'exceljs';
 import { generateReportCardPDF } from '../utils/pdfReport';
 import { downloadFile } from '../utils/nativeDownload';
 import { formatTime12Hour } from '../utils/dateUtils';
+import { ConfirmModal } from '../components/ConfirmModal';
 
 const Tracker: React.FC = () => {
   const { records, courses, deleteRecord } = useAttendance();
@@ -14,6 +15,7 @@ const Tracker: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCourse, setFilterCourse] = useState('All');
   const [filterStatus, setFilterStatus] = useState('All');
+  const [recordToDelete, setRecordToDelete] = useState<string | null>(null);
 
   // Sort by date descending
   const sortedRecords = [...records].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -200,11 +202,7 @@ const Tracker: React.FC = () => {
                     <td className={styles.noteCell}>{record.note || '-'}</td>
                     <td className={styles.actionsCol}>
                       <button 
-                        onClick={() => {
-                          if (window.confirm('Are you sure you want to delete this attendance record? This action cannot be undone.')) {
-                            deleteRecord(record.id);
-                          }
-                        }}
+                        onClick={() => setRecordToDelete(record.id)}
                         className={styles.deleteBtn}
                         title="Delete record"
                       >
@@ -222,6 +220,20 @@ const Tracker: React.FC = () => {
           </div>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={!!recordToDelete}
+        title="Delete Attendance Record"
+        message="Are you sure you want to delete this attendance record? This action cannot be undone."
+        confirmText="Delete"
+        onConfirm={() => {
+          if (recordToDelete) {
+            deleteRecord(recordToDelete);
+            setRecordToDelete(null);
+          }
+        }}
+        onCancel={() => setRecordToDelete(null)}
+      />
     </div>
   );
 };

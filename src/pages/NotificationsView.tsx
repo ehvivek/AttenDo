@@ -2,6 +2,7 @@ import React from 'react';
 import { Bell, Check, Trash2 } from 'lucide-react';
 import { useNotifications } from '../context/NotificationContext';
 import { SwipeableNotification } from '../components/SwipeableNotification';
+import { ConfirmModal } from '../components/ConfirmModal';
 import styles from './NotificationsView.module.css';
 
 interface NotificationsViewProps {
@@ -10,6 +11,7 @@ interface NotificationsViewProps {
 
 const NotificationsView: React.FC<NotificationsViewProps> = ({ setActiveTab }) => {
   const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification, clearAllNotifications } = useNotifications();
+  const [showClearConfirm, setShowClearConfirm] = React.useState(false);
 
   // Optionally mark all as read automatically when visiting? No, let user read them.
 
@@ -33,11 +35,7 @@ const NotificationsView: React.FC<NotificationsViewProps> = ({ setActiveTab }) =
             </button>
           )}
           {notifications.length > 0 && (
-            <button className={styles.clearAllBtn} onClick={() => {
-              if (window.confirm('Are you sure you want to clear all notifications?')) {
-                clearAllNotifications();
-              }
-            }} title="Clear all notifications">
+            <button className={styles.clearAllBtn} onClick={() => setShowClearConfirm(true)} title="Clear all notifications">
               <Trash2 size={16} /> Clear All
             </button>
           )}
@@ -71,6 +69,18 @@ const NotificationsView: React.FC<NotificationsViewProps> = ({ setActiveTab }) =
           ))
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={showClearConfirm}
+        title="Clear Notifications"
+        message="Are you sure you want to clear all notifications? This action cannot be undone."
+        confirmText="Clear All"
+        onConfirm={() => {
+          clearAllNotifications();
+          setShowClearConfirm(false);
+        }}
+        onCancel={() => setShowClearConfirm(false)}
+      />
     </div>
   );
 };
