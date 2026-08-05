@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAttendance } from '../context/AttendanceContext';
+import { useAuth } from '../context/AuthContext';
 import styles from './DashboardViews.module.css';
 import { CheckCircle, XCircle, BookOpen, Percent, ArrowLeft } from 'lucide-react';
 import { AnimatedNumber } from '../components/AnimatedNumber';
@@ -7,7 +8,21 @@ import { Skeleton } from '../components/Skeleton';
 
 const Overview: React.FC = () => {
   const { records, courses, loadingRecords } = useAttendance();
+  const { user } = useAuth();
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
+
+  // Dynamic greeting
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    const firstName = user?.fullName?.split(' ')[0] || 'there';
+    if (hour >= 5 && hour < 12) return `Good morning, ${firstName} 🌅`;
+    if (hour >= 12 && hour < 17) return `Good afternoon, ${firstName} ☀️`;
+    return `Good evening, ${firstName} 🌙`;
+  };
+
+  const todayDate = new Date().toLocaleDateString('en-IN', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+  });
 
   const displayRecords = selectedSubject 
     ? records.filter(r => r.courseCode === selectedSubject)
@@ -40,11 +55,11 @@ const Overview: React.FC = () => {
       <header className={styles.header}>
         <div className={styles.headerTop}>
           <div>
-            <h1 className={styles.title}>{selectedSubject ? 'Subject Details' : 'Overview'}</h1>
+            <h1 className={styles.title}>{selectedSubject ? 'Subject Details' : getGreeting()}</h1>
             <p className={styles.subtitle}>
               {selectedSubject 
                 ? `Viewing attendance for ${courses.find(c => c.code === selectedSubject)?.name || selectedSubject}` 
-                : 'Here is your attendance summary for this semester.'}
+                : todayDate}
             </p>
           </div>
           {selectedSubject && (
