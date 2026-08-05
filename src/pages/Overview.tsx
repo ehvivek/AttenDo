@@ -15,9 +15,9 @@ const Overview: React.FC = () => {
   const getGreeting = () => {
     const hour = new Date().getHours();
     const firstName = user?.fullName?.split(' ')[0] || 'there';
-    if (hour >= 5 && hour < 12) return `Good morning, ${firstName} 🌅`;
-    if (hour >= 12 && hour < 17) return `Good afternoon, ${firstName} ☀️`;
-    return `Good evening, ${firstName} 🌙`;
+    if (hour >= 5 && hour < 12) return `Good morning, ${firstName}`;
+    if (hour >= 12 && hour < 17) return `Good afternoon, ${firstName}`;
+    return `Good evening, ${firstName}`;
   };
 
   const todayDate = new Date().toLocaleDateString('en-IN', {
