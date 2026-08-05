@@ -200,7 +200,11 @@ const Tracker: React.FC = () => {
                     <td className={styles.noteCell}>{record.note || '-'}</td>
                     <td className={styles.actionsCol}>
                       <button 
-                        onClick={() => deleteRecord(record.id)}
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to delete this attendance record? This action cannot be undone.')) {
+                            deleteRecord(record.id);
+                          }
+                        }}
                         className={styles.deleteBtn}
                         title="Delete record"
                       >

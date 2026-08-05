@@ -33,7 +33,11 @@ const NotificationsView: React.FC<NotificationsViewProps> = ({ setActiveTab }) =
             </button>
           )}
           {notifications.length > 0 && (
-            <button className={styles.clearAllBtn} onClick={clearAllNotifications} title="Clear all notifications">
+            <button className={styles.clearAllBtn} onClick={() => {
+              if (window.confirm('Are you sure you want to clear all notifications?')) {
+                clearAllNotifications();
+              }
+            }} title="Clear all notifications">
               <Trash2 size={16} /> Clear All
             </button>
           )}
