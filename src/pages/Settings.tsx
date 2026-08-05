@@ -229,6 +229,10 @@ const Settings: React.FC = () => {
           </div>
         </div>
 
+        <div style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 500 }}>
+          AttenDo v0.A1
+        </div>
+
         <div style={{ marginTop: '2rem' }}>
           <h2 className={styles.sectionTitle} style={{ color: 'var(--danger-color)' }}>Account Actions</h2>
           <div className={styles.statCard} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem', borderColor: 'rgba(239, 68, 68, 0.2)' }}>
