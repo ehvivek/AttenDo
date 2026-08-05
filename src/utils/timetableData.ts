@@ -73,6 +73,7 @@ const commonTheoryClasses = {
     createClass('CH224', 'Theory', '11:00', '11:55', 'AB2 LR6'),
     createClass('ECE102', 'Theory', '12:00', '12:55', 'AB2 LR6'),
     createClass('CH224', 'Tutorial', '15:00', '15:55', 'AB2 LR6'), // CH224 TUT (D1+D2+D3)
+    createClass('CH224L', 'Lab', '16:00', '17:55', 'AB1 GF')
   ],
   Tuesday: [
     createClass('CH262', 'Theory', '09:00', '09:55', 'AB2 LR6'),
@@ -91,10 +92,12 @@ const commonTheoryClasses = {
     createClass('CH262', 'Theory', '10:00', '10:55', 'AB2 LR6'),
     createClass('CH171', 'Theory', '11:00', '11:55', 'AB2 LR6'),
     createClass('CH224', 'Theory', '12:00', '12:55', 'AB2 LR6'),
+    createClass('CH224L', 'Lab', '14:00', '15:55', 'AB1 GF')
   ],
   Friday: [
     createClass('MA222', 'Theory', '10:00', '10:55', 'AB2 LR6'),
     createClass('ECE102', 'Theory', '11:00', '11:55', 'AB2 LR6'),
+    createClass('CH224L', 'Lab', '16:00', '17:55', 'AB1 GF')
   ]
 };
 
@@ -102,8 +105,7 @@ export const timetableData: BatchTimetable = {
   'D1': {
     Monday: [
       ...commonTheoryClasses.Monday,
-      createClass('MA123', 'Tutorial', '09:00', '09:55', 'AB1 LR4'), // TD1
-      createClass('CH224L', 'Lab', '16:00', '17:55', 'AB1 GF')
+      createClass('MA123', 'Tutorial', '09:00', '09:55', 'AB1 LR4') // TD1
     ].sort((a, b) => a.startTime.localeCompare(b.startTime)),
     Tuesday: [
       ...commonTheoryClasses.Tuesday,
@@ -140,8 +142,7 @@ export const timetableData: BatchTimetable = {
       createClass('ECE102L', 'Lab', '14:00', '15:55', 'Plaza 4th Floor')
     ].sort((a, b) => a.startTime.localeCompare(b.startTime)),
     Thursday: [
-      ...commonTheoryClasses.Thursday,
-      createClass('CH224L', 'Lab', '14:00', '15:55', 'AB1 GF')
+      ...commonTheoryClasses.Thursday
     ].sort((a, b) => a.startTime.localeCompare(b.startTime)),
     Friday: [
       ...commonTheoryClasses.Friday,
@@ -171,8 +172,7 @@ export const timetableData: BatchTimetable = {
     Friday: [
       ...commonTheoryClasses.Friday,
       createClass('CH171', 'Tutorial', '12:00', '12:55', 'AB2 LR6'),
-      createClass('CH262', 'Tutorial', '15:00', '15:55', 'AB2 LR6'),
-      createClass('CH224L', 'Lab', '16:00', '17:55', 'AB1 GF')
+      createClass('CH262', 'Tutorial', '15:00', '15:55', 'AB2 LR6')
     ].sort((a, b) => a.startTime.localeCompare(b.startTime)),
     Saturday: [],
     Sunday: []
