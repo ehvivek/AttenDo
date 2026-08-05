@@ -256,9 +256,24 @@ const Timetable: React.FC = () => {
                       <div className={styles.classHeader}>
                         <div className={styles.classTitleGroup}>
                           {getIcon(session.type, session.subjectCode)}
-                          <h3 className={styles.subjectName} style={{ textDecoration: session.isCancelled ? 'line-through' : 'none', opacity: session.isCancelled ? 0.5 : 1, display: 'flex', alignItems: 'center' }}>
+                          <h3 className={styles.subjectName} style={{ textDecoration: session.isCancelled ? 'line-through' : 'none', opacity: session.isCancelled ? 0.5 : 1, display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
                             {session.subjectName}
                             {sessionTag}
+                            {session.subjectCode === 'CH224L' && session.type === 'Lab' && ['Monday', 'Thursday', 'Friday'].includes(day) && (
+                              <span style={{ 
+                                marginLeft: '8px',
+                                padding: '2px 8px',
+                                borderRadius: '12px',
+                                fontSize: '0.75rem',
+                                backgroundColor: 'rgba(139, 92, 246, 0.15)',
+                                color: '#8b5cf6',
+                                fontWeight: 600,
+                                whiteSpace: 'nowrap',
+                                border: '1px solid rgba(139, 92, 246, 0.3)'
+                              }}>
+                                {day === 'Monday' ? 'B1' : day === 'Thursday' ? 'B2' : day === 'Friday' ? 'B3' : ''}
+                              </span>
+                            )}
                           </h3>
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
