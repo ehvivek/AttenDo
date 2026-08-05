@@ -259,7 +259,7 @@ const Timetable: React.FC = () => {
                           <h3 className={styles.subjectName} style={{ textDecoration: session.isCancelled ? 'line-through' : 'none', opacity: session.isCancelled ? 0.5 : 1, display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
                             {session.subjectName}
                             {sessionTag}
-                            {session.subjectCode === 'CH224L' && session.type === 'Lab' && ['Monday', 'Thursday', 'Friday'].includes(day) && (
+                            {session.subjectCode === 'CH224L' && session.type === 'Lab' && ['Monday', 'Thursday', 'Friday'].includes(currentDayStr) && (
                               <span style={{ 
                                 marginLeft: '8px',
                                 padding: '2px 8px',
@@ -271,7 +271,7 @@ const Timetable: React.FC = () => {
                                 whiteSpace: 'nowrap',
                                 border: '1px solid rgba(139, 92, 246, 0.3)'
                               }}>
-                                {day === 'Monday' ? 'B1' : day === 'Thursday' ? 'B2' : day === 'Friday' ? 'B3' : ''}
+                                {currentDayStr === 'Monday' ? 'B1' : currentDayStr === 'Thursday' ? 'B2' : currentDayStr === 'Friday' ? 'B3' : ''}
                               </span>
                             )}
                           </h3>
