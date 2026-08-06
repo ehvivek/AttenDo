@@ -56,16 +56,19 @@ const createClass = (
   endTime: string,
   room?: string,
   teacher?: string
-): ClassSession => ({
-  id: `${code}-${type}-${startTime}`,
-  subjectCode: code,
-  subjectName: SUBJECT_NAMES[code] || code,
-  type,
-  startTime,
-  endTime,
-  room,
-  teacher: teacher || TEACHERS[code]
-});
+): ClassSession => {
+  const actualCode = type === 'Tutorial' ? `${code}_TUT` : code;
+  return {
+    id: `${actualCode}-${type}-${startTime}`,
+    subjectCode: actualCode,
+    subjectName: (SUBJECT_NAMES[code] || code) + (type === 'Tutorial' ? ' (Tutorial)' : ''),
+    type,
+    startTime,
+    endTime,
+    room,
+    teacher: teacher || TEACHERS[code]
+  };
+};
 
 const commonTheoryClasses = {
   Monday: [
@@ -213,15 +216,14 @@ export const getCoursesForBatch = (batch: string) => {
   const coursesMap = new Map<string, { code: string, name: string, credits: number, type: 'Theory' | 'Lab' | 'Tutorial' }>();
   
   Object.values(schedule).flat().forEach(session => {
-    if (session.type === 'Theory' || session.type === 'Lab') {
-      if (!coursesMap.has(session.subjectCode)) {
-        coursesMap.set(session.subjectCode, {
-          code: session.subjectCode,
-          name: session.subjectName,
-          credits: CREDITS[session.subjectCode] || 3,
-          type: session.type
-        });
-      }
+    if (!coursesMap.has(session.subjectCode)) {
+      const baseCode = session.subjectCode.replace('_TUT', '');
+      coursesMap.set(session.subjectCode, {
+        code: session.subjectCode,
+        name: session.subjectName,
+        credits: CREDITS[baseCode] || 3,
+        type: session.type
+      });
     }
   });
   

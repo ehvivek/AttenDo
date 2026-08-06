@@ -86,7 +86,7 @@ const Timetable: React.FC = () => {
   };
 
   const getIcon = (type: string, subjectCode: string) => {
-    const isMA123 = subjectCode === 'MA123';
+    const isMA123 = subjectCode.startsWith('MA123');
     
     if (type === 'Lab') return <FlaskConical size={18} className={styles.iconPurple} style={{ flexShrink: 0 }} />;
     if (type === 'Tutorial') {
