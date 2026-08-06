@@ -184,11 +184,17 @@ export const TimetableProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       } else if (override.action === 'REPLACE') {
         finalClasses = finalClasses.map(c => {
           if (c.id === override.target_class_id) {
+            const resolvedType = override.new_type || c.type;
+            const baseCode = (override.new_subject_code || c.subjectCode).replace('_TUT', '');
+            const resolvedCode = resolvedType === 'Tutorial' ? `${baseCode}_TUT` : baseCode;
+            const baseName = override.new_subject_code ? (SUBJECT_NAMES[baseCode] || baseCode) : c.subjectName.replace(' (Tutorial)', '');
+            const resolvedName = resolvedType === 'Tutorial' && !baseName.includes('(Tutorial)') ? `${baseName} (Tutorial)` : baseName;
+
             return {
               ...c,
-              subjectCode: override.new_subject_code || c.subjectCode,
-              subjectName: override.new_subject_code ? SUBJECT_NAMES[override.new_subject_code] || override.new_subject_code : c.subjectName,
-              type: override.new_type || c.type,
+              subjectCode: resolvedCode,
+              subjectName: resolvedName,
+              type: resolvedType,
               startTime: override.new_start_time || c.startTime,
               endTime: override.new_end_time || c.endTime,
               room: override.new_room !== undefined ? override.new_room : c.room,
@@ -200,11 +206,17 @@ export const TimetableProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           return c;
         });
       } else if (override.action === 'ADD') {
+        const resolvedType = override.new_type!;
+        const baseCode = override.new_subject_code!.replace('_TUT', '');
+        const resolvedCode = resolvedType === 'Tutorial' ? `${baseCode}_TUT` : baseCode;
+        const baseName = SUBJECT_NAMES[baseCode] || baseCode;
+        const resolvedName = resolvedType === 'Tutorial' ? `${baseName} (Tutorial)` : baseName;
+
         finalClasses.push({
           id: `added-${override.id}`,
-          subjectCode: override.new_subject_code!,
-          subjectName: SUBJECT_NAMES[override.new_subject_code!] || override.new_subject_code!,
-          type: override.new_type!,
+          subjectCode: resolvedCode,
+          subjectName: resolvedName,
+          type: resolvedType,
           startTime: override.new_start_time!,
           endTime: override.new_end_time!,
           room: override.new_room,
