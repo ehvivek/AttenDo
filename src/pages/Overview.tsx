@@ -10,6 +10,7 @@ const Overview: React.FC = () => {
   const { records, courses, loadingRecords } = useAttendance();
   const { user } = useAuth();
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
+  const [courseFilter, setCourseFilter] = useState<'All' | 'Theory' | 'Tutorial' | 'Lab'>('All');
 
   // Dynamic greeting
   const getGreeting = () => {
@@ -97,7 +98,20 @@ const Overview: React.FC = () => {
       </div>
 
       <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Subject wise Attendance</h2>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Subject wise Attendance</h2>
+          <div className={styles.filterTabs}>
+            {(['All', 'Theory', 'Tutorial', 'Lab'] as const).map(f => (
+              <button
+                key={f}
+                className={`${styles.filterTab} ${courseFilter === f ? styles.filterTabActive : ''}`}
+                onClick={() => setCourseFilter(f)}
+              >
+                {f === 'Theory' ? 'Lec' : f === 'Tutorial' ? 'Tut' : f}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className={styles.subjectsList}>
           {loadingRecords ? (
             Array.from({ length: 5 }).map((_, idx) => (
@@ -116,7 +130,9 @@ const Overview: React.FC = () => {
               </div>
             ))
           ) : (
-            [...courses].sort((a, b) => {
+            [...courses]
+            .filter(c => courseFilter === 'All' || c.type === courseFilter)
+            .sort((a, b) => {
               if (a.type === 'Tutorial' && b.type !== 'Tutorial') return 1;
               if (a.type !== 'Tutorial' && b.type === 'Tutorial') return -1;
               return 0;
