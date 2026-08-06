@@ -428,6 +428,15 @@
   background: rgba(139, 92, 246, 0.15);
 }
 
+.subjectCardTut {
+  border-left-color: #10b981;
+}
+
+.subjectCodeTut {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+}
+
 .progressContainer {
   display: flex;
   flex-direction: column;

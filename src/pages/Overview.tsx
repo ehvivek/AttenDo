@@ -116,18 +116,22 @@ const Overview: React.FC = () => {
               </div>
             ))
           ) : (
-            courses.map(course => {
+            [...courses].sort((a, b) => {
+              if (a.type === 'Tutorial' && b.type !== 'Tutorial') return 1;
+              if (a.type !== 'Tutorial' && b.type === 'Tutorial') return -1;
+              return 0;
+            }).map(course => {
               const { present, total, percentage } = getSubjectStats(course.code);
               const isSelected = selectedSubject === course.code;
               return (
                 <div 
                   key={course.code} 
-                  className={`${styles.subjectCard} ${isSelected ? styles.subjectCardSelected : ''}`}
+                  className={`${styles.subjectCard} ${isSelected ? styles.subjectCardSelected : ''} ${course.type === 'Tutorial' ? styles.subjectCardTut : ''}`}
                   onClick={() => setSelectedSubject(course.code)}
                 >
                   <div className={styles.subjectInfo}>
                     <h3 className={styles.subjectName}>{course.name}</h3>
-                    <span className={`${styles.subjectCode} ${course.type === 'Lab' ? styles.subjectCodeLab : ''}`}>{course.code}</span>
+                    <span className={`${styles.subjectCode} ${course.type === 'Lab' ? styles.subjectCodeLab : ''} ${course.type === 'Tutorial' ? styles.subjectCodeTut : ''}`}>{course.code}</span>
                   </div>
                   <div className={styles.subjectStats}>
                     <div className={styles.progressContainer}>
