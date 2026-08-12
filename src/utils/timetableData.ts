@@ -93,7 +93,8 @@ const commonTheoryClasses = {
   Thursday: [
     createClass('CH262', 'Theory', '09:00', '09:55', 'AB2 LR6'),
     createClass('CH224', 'Theory', '10:00', '10:55', 'AB2 LR6'),
-    createClass('CH171', 'Theory', '11:00', '11:55', 'AB2 LR6')
+    createClass('CH171', 'Theory', '11:00', '11:55', 'AB2 LR6'),
+    createClass('CH224L', 'Lab', '14:00', '15:55', 'AB1 GF')
   ],
   Friday: [
     createClass('MA222', 'Theory', '10:00', '10:55', 'AB2 LR6'),
@@ -144,7 +145,6 @@ export const timetableData: BatchTimetable = {
     ].sort((a, b) => a.startTime.localeCompare(b.startTime)),
     Thursday: [
       ...commonTheoryClasses.Thursday,
-      createClass('CH224L', 'Lab', '14:00', '15:55', 'AB1 GF'),
       createClass('MA222', 'Tutorial', '17:00', '17:55', 'AB2 LR5')
     ].sort((a, b) => a.startTime.localeCompare(b.startTime)),
     Friday: [
