@@ -1,4 +1,6 @@
-export interface ClassSession {
+const fs = require('fs');
+
+const content = `export interface ClassSession {
   id: string;
   subjectCode: string;
   subjectName: string;
@@ -57,9 +59,9 @@ const createClass = (
   room?: string,
   teacher?: string
 ): ClassSession => {
-  const actualCode = type === 'Tutorial' ? `${code}_TUT` : code;
+  const actualCode = type === 'Tutorial' ? \`\${code}_TUT\` : code;
   return {
-    id: `${actualCode}-${type}-${startTime}`,
+    id: \`\${actualCode}-\${type}-\${startTime}\`,
     subjectCode: actualCode,
     subjectName: (SUBJECT_NAMES[code] || code) + (type === 'Tutorial' ? ' (Tutorial)' : ''),
     type,
@@ -215,7 +217,7 @@ const days: ('Monday'|'Tuesday'|'Wednesday'|'Thursday'|'Friday'|'Saturday'|'Sund
     const seen = new Set();
     
     allClasses.forEach(c => {
-      const key = `${c.subjectCode}-${c.type}-${c.startTime}-${c.room}`;
+      const key = \`\${c.subjectCode}-\${c.type}-\${c.startTime}-\${c.room}\`;
       if (!seen.has(key)) {
         seen.add(key);
         uniqueClasses.push(c);
@@ -251,3 +253,5 @@ export const getCoursesForBatch = (batch: string) => {
   
   return Array.from(coursesMap.values());
 };
+`
+fs.writeFileSync('/Users/vivekkumar/Desktop/AttenDo/src/utils/timetableData.ts', content);

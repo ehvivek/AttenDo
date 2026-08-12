@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import type { ClassSession } from '../utils/timetableData';
-import { timetableData, SUBJECT_NAMES } from '../utils/timetableData';
+import { timetableData, futureTimetableData, SUBJECT_NAMES } from '../utils/timetableData';
 
 export interface TimetableOverride {
   id: string;
@@ -156,8 +156,12 @@ export const TimetableProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const currentDayStr = daysOfWeek[targetDate.getDay()];
     
+    // Switch to new timetable starting Aug 13, 2026
+    const isFuture = targetDate.getTime() >= new Date('2026-08-13T00:00:00').getTime();
+    const activeTimetable = isFuture ? futureTimetableData : timetableData;
+    
     // 1. Get base classes
-    const baseClasses = timetableData[batch as keyof typeof timetableData]?.[currentDayStr] || [];
+    const baseClasses = activeTimetable[batch as keyof typeof timetableData]?.[currentDayStr] || [];
     
     // 2. Clone to avoid mutating original
     let finalClasses: (ClassSession & { isCancelled?: boolean, isReplaced?: boolean, isAdded?: boolean, overrideId?: string })[] = [...baseClasses].map(c => ({ ...c }));
