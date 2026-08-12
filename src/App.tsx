@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminLogin from './pages/AdminLogin';
 import Dashboard from './pages/Dashboard';
+import UpdateChecker from './components/UpdateChecker';
 import styles from './App.module.css';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -27,6 +28,7 @@ function App() {
   return (
     <Router>
       <div className={styles.appContainer}>
+        <UpdateChecker />
         <Routes>
           <Route path="/" element={<PublicRoute><Landing /></PublicRoute>} />
           <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
