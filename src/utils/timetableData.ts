@@ -91,11 +91,9 @@ const commonTheoryClasses = {
     createClass('MA123', 'Theory', '16:00', '16:55', 'AB5 LR3'),
   ],
   Thursday: [
-    createClass('MA123', 'Theory', '09:00', '09:55', 'AB5 LR3'),
-    createClass('CH262', 'Theory', '10:00', '10:55', 'AB2 LR6'),
-    createClass('CH171', 'Theory', '11:00', '11:55', 'AB2 LR6'),
-    createClass('CH224', 'Theory', '12:00', '12:55', 'AB2 LR6'),
-    createClass('CH224L', 'Lab', '14:00', '15:55', 'AB1 GF')
+    createClass('CH262', 'Theory', '09:00', '09:55', 'AB2 LR6'),
+    createClass('CH224', 'Theory', '10:00', '10:55', 'AB2 LR6'),
+    createClass('CH171', 'Theory', '11:00', '11:55', 'AB2 LR6')
   ],
   Friday: [
     createClass('MA222', 'Theory', '10:00', '10:55', 'AB2 LR6'),
@@ -145,7 +143,9 @@ export const timetableData: BatchTimetable = {
       createClass('ECE102L', 'Lab', '14:00', '15:55', 'Plaza 4th Floor')
     ].sort((a, b) => a.startTime.localeCompare(b.startTime)),
     Thursday: [
-      ...commonTheoryClasses.Thursday
+      ...commonTheoryClasses.Thursday,
+      createClass('CH224L', 'Lab', '14:00', '15:55', 'AB1 GF'),
+      createClass('MA222', 'Tutorial', '17:00', '17:55', 'AB2 LR5')
     ].sort((a, b) => a.startTime.localeCompare(b.startTime)),
     Friday: [
       ...commonTheoryClasses.Friday,
